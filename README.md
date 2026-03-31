@@ -13,10 +13,11 @@ This project is a MuleSoft-based REST API that integrates with PostgreSQL databa
 
 
 # 🚀 Features
-✅ Create a customer
-📥 Retrieve customers
-✏️ Update customer details
-❌ Delete a customer
+
+* Create a customer
+* Retrieve customers
+* Update customer details
+* Delete a customer
 
 
 <br>
