@@ -42,6 +42,7 @@ DataWeave handles data transformation between layers
 POST /customers
 
 Creates a new customer in the database.
+Example
 
 ```
 Request Body
@@ -52,6 +53,31 @@ Request Body
   "email": "john@email.com"
 }
 ```
+
+<br>
+
+# Get Customers
+
+GET /customers
+
+Retrieves all customers from the database.
+
+<br>
+
+# Update Customer
+
+PUT /customers/{id}
+
+Updates an existing customer's details.
+
+<br>
+
+# Delete Customer
+
+DELETE /customers/{id}
+
+Deletes a customer from the database.
+
 
 
 <br>
