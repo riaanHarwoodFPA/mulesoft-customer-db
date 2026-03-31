@@ -3,4 +3,5 @@ This project is a MuleSoft-based REST API that integrates with PostgreSQL databa
 
 <br> 
 <br> 
-#Diagrams & Screenshots
+
+# Diagrams & Screenshots
