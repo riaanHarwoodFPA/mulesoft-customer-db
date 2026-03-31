@@ -5,10 +5,11 @@ This project is a MuleSoft-based REST API that integrates with PostgreSQL databa
 <br> 
 
 # ⚙️ Tech Stack
-MuleSoft (Anypoint Studio)
-PostgreSQL
-Supabase
-DataWeave
+
+* MuleSoft (Anypoint Studio)
+* PostgreSQL
+* Supabase
+* DataWeave
 
 
 # 🚀 Features
