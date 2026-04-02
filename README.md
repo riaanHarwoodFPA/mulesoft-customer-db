@@ -34,6 +34,9 @@ POST /customers
 }
 ```
 
+# Instructions
+Open **customer-db-api** directly in VS code to see workflow. 
+
 <br>
 <br> 
 
