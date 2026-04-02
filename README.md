@@ -3,7 +3,6 @@
 **A MuleSoft API that connects to a postgres database (Supabase)**
 
 <br>
-<br>
 This project is a MuleSoft-based REST API that integrates with PostgreSQL database hosted on supabase. The API lets users send requests (like “create a customer”) and the app stores/retrieves that data from a database (supabase). This is a test project which I'm using to experiment with mules integration tools and practice connecting different APIs together. 
 <br> 
 <br> 
