@@ -19,6 +19,12 @@ User (Postman / App) - User sends a request (Add,Delete,Update a User)
         ↓
 User gets response
 ```
+<br>
+<br>
+**Mule Flow**
+```
+HTTP Listener → Transform Message → DB Insert
+```
 
 <br>
 <br>
