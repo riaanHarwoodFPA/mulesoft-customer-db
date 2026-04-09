@@ -144,6 +144,7 @@ Deletes a customer from the database.
 <br>
 <br>
 
+
 # Issue Encountered
 
 * Connecting to SupabaseDB. Currently geeting the following error:
