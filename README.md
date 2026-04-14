@@ -47,6 +47,11 @@ HTTP Listener → Transform Message → DB Insert
 
 **DELETE API** 
 
+<img width="487" height="281" alt="image" src="https://github.com/user-attachments/assets/b878a904-aad3-4e39-9d7b-7927193d20db" />
+
+<img width="1382" height="738" alt="image" src="https://github.com/user-attachments/assets/908a088f-c068-4424-bdd6-e3989ca2267f" />
+
+
 <br>
 <br>
 
