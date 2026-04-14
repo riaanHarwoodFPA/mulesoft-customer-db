@@ -34,6 +34,12 @@ HTTP Listener → Transform Message → DB Insert
 
 **GET API** 
 
+<img width="397" height="287" alt="image" src="https://github.com/user-attachments/assets/4584cc5a-1a04-4028-a8ae-f822eaef3dc6" />
+
+<img width="1376" height="877" alt="image" src="https://github.com/user-attachments/assets/3886395b-838d-4d6e-9af8-7c6c8ba632b9" />
+
+
+
 **DELETE API** 
 
 **PATCH API** 
