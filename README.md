@@ -43,8 +43,8 @@ Creates a new customer and adds them to the database.
 
 <img width="1007" height="676" alt="Screenshot 2026-04-21 at 12 18 31 AM" src="https://github.com/user-attachments/assets/2caa5e7f-fc88-43d6-a9e8-5c089295050f" />
 
+<img width="1438" height="517" alt="Screenshot 2026-04-21 at 12 22 31 AM" src="https://github.com/user-attachments/assets/b050f46c-415b-4a9b-9e60-d252ea333336" />
 
-<img width="1381" height="815" src="https://github.com/user-attachments/assets/e3bc1e3c-ba23-4e19-9845-15cfbaf12d20" />
 
 ---
 
