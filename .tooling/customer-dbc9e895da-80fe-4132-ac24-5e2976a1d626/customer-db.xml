@@ -14,15 +14,14 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 	</db:config>
 	<flow name="get-customers" doc:id="68c64016-c8f9-4f47-83d1-eb05fed37bc1" >
 		<http:listener doc:name="getCustomers" doc:id="3f5f91bf-81c8-4d41-8c00-daa2c9a0e83a" path="/customers" config-ref="HTTP_Listener_config" allowedMethods="GET"/>
-		<db:select doc:name="Select" doc:id="7ab94f5e-0871-407b-a74e-c7edb96a887e" config-ref="Database_Config">
-			<db:sql ><![CDATA[SELECT * FROM customers;]]></db:sql>
-		</db:select>
+		<db:select doc:name="Select" doc:id="7ab94f5e-0871-407b-a74e-c7edb96a887e" />
 		<ee:transform doc:name="Transform Message" doc:id="20392337-c6a5-4e94-ac24-20fe07fcfee9" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
+output application/java
 ---
-payload]]></ee:set-payload>
+{
+}]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>

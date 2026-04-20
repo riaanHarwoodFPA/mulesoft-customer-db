@@ -9,17 +9,21 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="e610d146-be65-423b-8746-3bfefd055f9f" >
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
-	<flow name="customer-dbFlow" doc:id="68c64016-c8f9-4f47-83d1-eb05fed37bc1" >
-		<http:listener doc:name="getCustomers" doc:id="3f5f91bf-81c8-4d41-8c00-daa2c9a0e83a" path="/getCustomer" config-ref="HTTP_Listener_config"/>
-		<ee:transform doc:name="Transform Message" doc:id="90fb6183-b374-45f5-82ed-1c5413cdd908" >
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="e6d950af-f84e-4fe9-988a-a1c9c4120303" >
+		<db:generic-connection url="jdbc:postgresql://db.bsqbxslhkixndqrldwvg.supabase.co:5432/postgres?user=postgres&amp;password=cLrOuR1oZQJAep6w" driverClassName="org.postgresql.Driver" user="postgres" password="cLrOuR1oZQJAep6w" />
+	</db:config>
+	<flow name="get-customers" doc:id="68c64016-c8f9-4f47-83d1-eb05fed37bc1" >
+		<http:listener doc:name="getCustomers" doc:id="3f5f91bf-81c8-4d41-8c00-daa2c9a0e83a" path="/customers" config-ref="HTTP_Listener_config" allowedMethods="GET"/>
+		<db:select doc:name="Select" doc:id="7ab94f5e-0871-407b-a74e-c7edb96a887e" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM customers;]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="20392337-c6a5-4e94-ac24-20fe07fcfee9" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+output application/json
 ---
-{
-}]]></ee:set-payload>
+payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<db:select doc:name="Select" doc:id="13635884-00c8-4aba-8d6d-0598f110b493" />
 	</flow>
 </mule>
