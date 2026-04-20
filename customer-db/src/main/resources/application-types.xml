@@ -35,4 +35,13 @@ type customer_db_output = {|
     </types:processor-declaration>
   </types:enrichment>
   <types:enrichment select="#61db737d-cde5-4849-87af-0ecf56961412"/>
+  <types:enrichment select="#61b71e5b-61c1-48b1-9e8a-693c74ee1c9b">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="customer_db_output"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
 </types:mule>

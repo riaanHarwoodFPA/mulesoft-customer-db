@@ -3,6 +3,9 @@
     "61db737d-cde5-4849-87af-0ecf56961412": {
       "payload": "sample_data/statementresult.dwl"
     },
+    "e3f621ed-24c2-40f1-84de-2fa892ac9b1a": {
+      "payload": "sample_data/defaultnumbertype.dwl"
+    },
     "e309547d-0724-413a-95ef-3dcf38fdf28f": {
       "payload": "sample_data/java.dwl"
     }
