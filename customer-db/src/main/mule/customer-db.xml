@@ -9,10 +9,14 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="e610d146-be65-423b-8746-3bfefd055f9f" >
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
+	<db:config name="Postgres_DB_Config" doc:name="Database Config" doc:id="10dac014-67f0-47bb-b018-889fcaa19c3f" >
+		<db:generic-connection url="jdbc:postgresql://aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres?user=postgres.kefimsoytafsjlzugnms&amp;password=s8bqRS2xT3Bb3JEQ" driverClassName="org.postgresql.Driver" user="postgres.kefimsoytafsjlzugnms" password="s8bqRS2xT3Bb3JEQ" />
+	</db:config>
 	<flow name="get-customers" doc:id="68c64016-c8f9-4f47-83d1-eb05fed37bc1" >
 		<http:listener doc:name="getCustomers" doc:id="3f5f91bf-81c8-4d41-8c00-daa2c9a0e83a" path="/customers" config-ref="HTTP_Listener_config" allowedMethods="GET"/>
-		<db:select doc:name="Select" doc:id="7ab94f5e-0871-407b-a74e-c7edb96a887e">
+		<db:select doc:name="Select" doc:id="7ab94f5e-0871-407b-a74e-c7edb96a887e" config-ref="Postgres_DB_Config">
 			<db:sql ><![CDATA[SELECT * FROM customers;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[payload]]]></db:input-parameters>
 		</db:select>
 		<ee:transform doc:name="Transform Message" doc:id="20392337-c6a5-4e94-ac24-20fe07fcfee9" >
 			<ee:message >
@@ -22,8 +26,5 @@ output application/json
 payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-	</flow>
-	<flow name="add-customer" doc:id="ef1f6e76-2dd3-4e40-b076-a475025b8e77" >
-		<http:listener doc:name="newCustomer" doc:id="a7ce5ede-95af-4229-9b20-bd7e2d4b9069" config-ref="HTTP_Listener_config" path="/customers"/>
 	</flow>
 </mule>
