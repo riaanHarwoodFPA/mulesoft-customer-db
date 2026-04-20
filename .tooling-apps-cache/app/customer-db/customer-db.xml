@@ -27,4 +27,41 @@ payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>
+	<flow name="add-customer" doc:id="e8232896-292d-4058-bcbb-198a77337852" >
+		<http:listener doc:name="Listener" doc:id="703183e1-14a7-4109-a05b-262fea50a15a" config-ref="HTTP_Listener_config" path="/customers" allowedMethods="POST">
+			<http:response statusCode="201" />
+		</http:listener>
+		<ee:transform doc:name="Transform Message" doc:id="e309547d-0724-413a-95ef-3dcf38fdf28f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+  first_name: payload.firstName,
+  last_name: payload.lastName,
+  email: payload.email
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<db:insert doc:name="InsertCustomer" doc:id="f1021702-bd13-4428-9e52-c51d8a92f1c7" config-ref="Postgres_DB_config" autoGenerateKeys="true">
+			<db:sql ><![CDATA[INSERT INTO customers (first_name, last_name, email) 
+VALUES (:first_name, :last_name, :email)
+RETURNING *;
+
+]]></db:sql>
+			<db:input-parameters ><![CDATA[#[payload]]]></db:input-parameters>
+		</db:insert>
+		<ee:transform doc:name="Transform Message" doc:id="61db737d-cde5-4849-87af-0ecf56961412" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    message: "Customer successfully added",
+    customer: payload[0]
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
 </mule>
