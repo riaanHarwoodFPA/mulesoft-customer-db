@@ -58,6 +58,9 @@ Creates a new customer and adds them to the database.
 
 <img width="508" height="313" alt="Screenshot 2026-04-21 at 8 01 38 PM" src="https://github.com/user-attachments/assets/025e05fe-8c55-488e-afd6-32c0daf994f1" />
 
+<img width="1008" height="299" alt="Screenshot 2026-04-21 at 8 20 50 PM" src="https://github.com/user-attachments/assets/92ddb727-c4dd-4dd2-ad28-0cb053913db2" />
+
+
 
 <br>
 
