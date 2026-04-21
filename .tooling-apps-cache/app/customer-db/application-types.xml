@@ -44,4 +44,5 @@ type customer_db_output = {|
       </types:input-event>
     </types:processor-declaration>
   </types:enrichment>
+  <types:enrichment select="#203b1520-eb36-4e05-bc2b-4e1107e7427a"/>
 </types:mule>

@@ -71,10 +71,11 @@ output application/json
 output application/java
 ---
 {
-  first_name: payload.firstName,
-  last_name: payload.lastName,
-  email: payload.email
-}]]></ee:set-payload>
+	first_name: payload.firstName,
+    last_name: payload.lastName,
+    email: payload.email
+}
+]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<db:insert doc:name="InsertCustomer" doc:id="f1021702-bd13-4428-9e52-c51d8a92f1c7" config-ref="Postgres_DB_config" autoGenerateKeys="true">
@@ -97,9 +98,9 @@ output application/json
 ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<error-handler >
-			<on-error-continue enableNotifications="true" logException="true" doc:name="Validation Error" doc:id="7f249298-c24e-4d61-844a-540cff24ca3a" type="ANY">
-				<ee:transform doc:name="Transform Message" doc:id="0cb14ff5-a72c-4f98-9ea4-e80f80b9df73" >
+		<error-handler>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="25b1e9f6-1565-4b04-b433-736a63c19552" type="ANY">
+				<ee:transform doc:name="Transform Message" doc:id="175c7f3e-3824-4363-bdc8-7e1dfa7d531a" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -110,21 +111,21 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<set-variable value="400" doc:name="Set Variable" doc:id="8ee08cbb-de09-4faa-8ce9-d26663e16e63" variableName="statusCode"/>
+				<set-variable value="vars.statusCode = 400" doc:name="Set Variable" doc:id="30935937-dc1b-4bf7-874d-322944bd9a87" variableName="statusCode"/>
 			</on-error-continue>
-			<on-error-continue enableNotifications="true" logException="true" doc:name="DB errors" doc:id="96a6a1ae-b450-4453-9460-6847bd30b3f6" type="DB:CONNECTIVITY, DB:QUERY_EXECUTION">
-				<ee:transform doc:name="Transform Message" doc:id="8762a402-43cb-4ede-85b8-b3e4401694e3" >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue1" doc:id="d19cfc15-d2a1-49d6-9509-019e72fff997" type="DB:CONNECTIVITY, DB:QUERY_EXECUTION" >
+				<ee:transform doc:name="Transform Message" doc:id="ec58cd14-62fd-4bc1-a8fb-62add784b8be" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
 {
-  error: "Database error",
-  message: "Something went wrong while saving customer"
+    error: "Database unavailable",
+    message: "Please try again later"
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<set-variable value="500" doc:name="Set Variable" doc:id="79e57de3-4280-4222-ba71-b414e28d357e" variableName="statusCode"/>
+				<set-variable value="500" doc:name="Set Variable" doc:id="34cef8d9-c007-4a02-8dde-b9a1777c79a6" variableName="statusCode" />
 			</on-error-continue>
 		</error-handler>
 	</flow>
@@ -141,12 +142,30 @@ WHERE id = :id;]]></db:sql>
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  message: "Customer deleted successfully",
-  id: vars.customerId
+if (payload == 0)
+    message: "Customer not found"
+else
+    {
+      message: "Customer deleted successfully",
+      id: vars.customerId
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="c04c2927-7cdf-4387-a5f7-fd28d607ac40" type="ANY">
+				<ee:transform doc:name="Transform Message" doc:id="4407f4b5-715a-4db6-bd78-09b5ffaa239c" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  error: "Customer not found"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="404" doc:name="Set Variable" doc:id="ab80f1c0-667b-45ba-8386-2e1a120a88e4" variableName="statusCode"/>
+			</on-error-continue>
+		</error-handler>
 	</flow>
 	<flow name="update-customer-details" doc:id="8a264202-6f37-4368-b882-ad8fb61912b0" >
 		<http:listener doc:name="updateCustomer" doc:id="17fd4104-a88c-4753-9c5e-62e68e9bce05" config-ref="HTTP_Listener_config" path="/customers/{id}" allowedMethods="PATCH"/>
@@ -185,5 +204,46 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="BAD_REQUEST" doc:id="a06e4457-5b94-42c5-841b-1661abafeb75" type="ANY">
+				<ee:transform doc:name="Transform Message" doc:id="820d7e16-5458-49d0-9e73-88b2550ef2e7" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  error: "Customer not found"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="400" doc:name="Set Variable" doc:id="84321cf7-155d-4151-8a9e-bc7a4a188e3e" variableName="statusCode"/>
+			</on-error-continue>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="DB errors" doc:id="1a67e0ee-5ebc-4bd5-b749-4c4207ad7439" type="ANY">
+				<ee:transform doc:name="Transform Message" doc:id="5703a266-0ab2-430d-8d8d-4a6542fc24ea" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  error: "Customer not found"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="500" doc:name="Set Variable" doc:id="2759fc78-4810-4817-ae99-087babf88a2a" variableName="statusCode"/>
+			</on-error-continue>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="fec7335c-2779-403c-a54f-e66892da66f8" type="ANY" >
+				<ee:transform doc:name="Transform Message" doc:id="6a638467-c0fa-40cf-90be-09c1b8acd35c" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  error: "Customer not found"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="404" doc:name="Set Variable" doc:id="c1230ec7-65ae-4e8a-ad00-5bcbae0542f0" variableName="statusCode" />
+			</on-error-continue>
+		</error-handler>
 	</flow>
 </mule>
