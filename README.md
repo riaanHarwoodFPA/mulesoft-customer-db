@@ -30,6 +30,9 @@ User receives response (Postman)
 
 ---
 
+
+
+
 ## 🔧 Basic Mule Flow
 
 
