@@ -55,7 +55,8 @@ Creates a new customer and adds them to the database.
 
 **Handler 2** - DB connection Error
 
-![Uploading Screenshot 2026-04-21 at 8.01.02 PM.png…]()
+
+<img width="508" height="313" alt="Screenshot 2026-04-21 at 8 01 38 PM" src="https://github.com/user-attachments/assets/025e05fe-8c55-488e-afd6-32c0daf994f1" />
 
 
 <br>
@@ -100,6 +101,12 @@ Removes a customer from the database.
 <br>
 
 **Error Handlers**
+
+**Handler 1** - Unable to find user based off id {/id}
+
+<img width="445" height="169" alt="Screenshot 2026-04-21 at 8 02 37 PM" src="https://github.com/user-attachments/assets/0e66c8d0-3695-4e86-89b6-6d472464acb1" />
+
+<img width="389" height="163" alt="Screenshot 2026-04-21 at 8 02 48 PM" src="https://github.com/user-attachments/assets/1b328c76-f647-43de-8966-bdc6021e7140" />
 
 
 <br>
