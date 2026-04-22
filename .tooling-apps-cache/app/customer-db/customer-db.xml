@@ -30,8 +30,8 @@ payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<error-handler>
-			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="5e2ce26e-4e77-4456-9eb6-5f94459c1a93" type="DB:CONNECTIVITY, DB:QUERY_EXECUTION">
-				<ee:transform doc:name="Transform Message" doc:id="b3c536ca-a098-4a04-bd75-fc35b8488e4a" >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="3f8632b5-9f60-46b7-90be-c7056d616772" type="DB:CONNECTIVITY, DB:QUERY_EXECUTION">
+				<ee:transform doc:name="Transform Message" doc:id="12a1a865-a968-43e4-9bfb-914a6cfffd3a" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -42,10 +42,10 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<set-variable value="500" doc:name="Set Variable" doc:id="05dbae38-f172-4af4-a8ab-7a7f343a89c7" variableName="statusCode"/>
-			</on-error-continue>
-			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="38985410-8059-41ba-ab40-41f00d0686f0" type="ANY">
-				<ee:transform doc:name="Transform Message" doc:id="bd4ab8e3-1b30-4684-936c-384b490f7333" >
+				<set-variable value="500" doc:name="Set Variable" doc:id="13614f4b-0715-40ed-bb5f-388ebee512c3" variableName="statusCode" />
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d05627ab-4cc4-4c06-a3dc-0af9443db5f0" type="ANY">
+				<ee:transform doc:name="Transform Message" doc:id="ca85c24b-5f22-4073-be75-d071168fcbd9" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -56,8 +56,8 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<set-variable value="500" doc:name="Set Variable" doc:id="f0a7e261-5714-4ec8-8443-4aebd898e96c" variableName="statusCode"/>
-			</on-error-continue>
+				<set-variable value="500" doc:name="Set Variable" doc:id="1eebf048-d441-480d-85bd-4f917387efd9" variableName="statusCode" />
+			</on-error-propagate>
 		</error-handler>
 	</flow>
 	<flow name="add-customer" doc:id="e8232896-292d-4058-bcbb-198a77337852" >
@@ -99,8 +99,8 @@ output application/json
 			</ee:message>
 		</ee:transform>
 		<error-handler>
-			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="25b1e9f6-1565-4b04-b433-736a63c19552" type="ANY">
-				<ee:transform doc:name="Transform Message" doc:id="175c7f3e-3824-4363-bdc8-7e1dfa7d531a" >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="07d52209-024c-4429-aeb1-e9e089e5070f" type="ANY">
+				<ee:transform doc:name="Transform Message" doc:id="ae8529a1-c17e-4786-b62d-a3766e4d45c1" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -111,10 +111,10 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<set-variable value="vars.statusCode = 400" doc:name="Set Variable" doc:id="30935937-dc1b-4bf7-874d-322944bd9a87" variableName="statusCode"/>
-			</on-error-continue>
-			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue1" doc:id="d19cfc15-d2a1-49d6-9509-019e72fff997" type="DB:CONNECTIVITY, DB:QUERY_EXECUTION" >
-				<ee:transform doc:name="Transform Message" doc:id="ec58cd14-62fd-4bc1-a8fb-62add784b8be" >
+				<set-variable value="vars.statusCode = 400" doc:name="Set Variable" doc:id="44344c4c-b524-49ce-813f-207e3efa9f78" variableName="statusCode"/>
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="4dfd9329-40ba-4b9f-b71e-5e846cafc768" type="DB:CONNECTIVITY, DB:QUERY_EXECUTION">
+				<ee:transform doc:name="Transform Message" doc:id="ce0ae838-2cbe-4991-a063-9634ed25d85d" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -125,8 +125,8 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<set-variable value="500" doc:name="Set Variable" doc:id="34cef8d9-c007-4a02-8dde-b9a1777c79a6" variableName="statusCode" />
-			</on-error-continue>
+				<set-variable value="vars.statusCode = 500" doc:name="Set Variable" doc:id="da3ffb33-73f2-4ef5-96b7-5fb3491a0378" variableName="statusCode"/>
+			</on-error-propagate>
 		</error-handler>
 	</flow>
 	<flow name="delete-customer" doc:id="ba4ce4bc-e550-423a-bad4-42d40021e45d" >
