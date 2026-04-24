@@ -6,60 +6,65 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="08b4e799-334b-4743-b4d6-83dee36aa652" >
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="08b4e799-334b-4743-b4d6-83dee36aa652">
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
 	<db:config name="Postgres_DB_config" doc:name="Database Config" doc:id="b854c815-9125-4e82-a21a-85e0bef52544" >
 		<db:generic-connection url="jdbc:postgresql://aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres?user=postgres.kefimsoytafsjlzugnms&amp;password=s8bqRS2xT3Bb3JEQ" driverClassName="org.postgresql.Driver" user="postgres.kefimsoytafsjlzugnms" password="s8bqRS2xT3Bb3JEQ" />
 	</db:config>
-	<flow name="get-customers" doc:id="d25b12f1-e716-4dd8-9be5-228ec85b5be0" >
-		<http:listener doc:name="getCustomer" doc:id="75c480aa-b43b-4efe-af97-a3e6cc9efe90" config-ref="HTTP_Listener_config" path="/customers" allowedMethods="GET">
-			<http:response statusCode="200" />
-			<http:error-response statusCode="200" />
-		</http:listener>
-		<db:select doc:name="Select" doc:id="fa89b6cf-1026-4e04-a312-e85c743a90c3" config-ref="Postgres_DB_config">
-			<db:sql ><![CDATA[SELECT * FROM customers;]]></db:sql>
-			<db:input-parameters ><![CDATA[#[payload]]]></db:input-parameters>
-		</db:select>
-		<ee:transform doc:name="Transform Message" doc:id="a2c836c9-53a2-45a8-9aeb-b059bdcabbdd" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+	<flow name="get-customers">
+    <http:listener config-ref="HTTP_Listener_config" path="/customers" allowedMethods="GET">
+        <http:response statusCode="#[vars.statusCode default 200]" />
+        <http:error-response statusCode="#[vars.statusCode default 500]" />
+    </http:listener>
+
+    <!-- FIX: Removed input-parameters -->
+    <db:select config-ref="Postgres_DB_config">
+        <db:sql><![CDATA[SELECT * FROM customers;]]></db:sql>
+    </db:select>
+
+    <ee:transform>
+        <ee:message>
+            <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<error-handler>
-			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="3f8632b5-9f60-46b7-90be-c7056d616772" type="DB:CONNECTIVITY, DB:QUERY_EXECUTION">
-				<ee:transform doc:name="Transform Message" doc:id="12a1a865-a968-43e4-9bfb-914a6cfffd3a" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
+payload
+]]></ee:set-payload>
+        </ee:message>
+    </ee:transform>
+
+    <error-handler>
+        <on-error-propagate type="DB:CONNECTIVITY, DB:QUERY_EXECUTION">
+            <set-variable variableName="statusCode" value="500"/>
+            <ee:transform>
+                <ee:message>
+                    <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
     error: "Database unavailable",
     message: "Please try again later"
 }]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-				<set-variable value="500" doc:name="Set Variable" doc:id="13614f4b-0715-40ed-bb5f-388ebee512c3" variableName="statusCode" />
-			</on-error-propagate>
-			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d05627ab-4cc4-4c06-a3dc-0af9443db5f0" type="ANY">
-				<ee:transform doc:name="Transform Message" doc:id="ca85c24b-5f22-4073-be75-d071168fcbd9" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
+                </ee:message>
+            </ee:transform>
+        </on-error-propagate>
+
+        <on-error-propagate type="ANY">
+            <set-variable variableName="statusCode" value="500"/>
+            <ee:transform>
+                <ee:message>
+                    <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
     error: "Internal server error",
-    message: "Something went wrong while retrieving customers"
+    message: error.description
 }]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-				<set-variable value="500" doc:name="Set Variable" doc:id="1eebf048-d441-480d-85bd-4f917387efd9" variableName="statusCode" />
-			</on-error-propagate>
-		</error-handler>
-	</flow>
+                </ee:message>
+            </ee:transform>
+        </on-error-propagate>
+    </error-handler>
+</flow>
 	<flow name="add-customer" doc:id="e8232896-292d-4058-bcbb-198a77337852" >
 		<http:listener doc:name="addCustomer" doc:id="703183e1-14a7-4109-a05b-262fea50a15a" config-ref="HTTP_Listener_config" path="/customers" allowedMethods="POST">
 			<http:response statusCode="201" />
@@ -111,7 +116,7 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<set-variable value="vars.statusCode = 400" doc:name="Set Variable" doc:id="44344c4c-b524-49ce-813f-207e3efa9f78" variableName="statusCode"/>
+				<set-variable value="400" doc:name="Set Variable" doc:id="44344c4c-b524-49ce-813f-207e3efa9f78" variableName="statusCode"/>
 			</on-error-propagate>
 			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="4dfd9329-40ba-4b9f-b71e-5e846cafc768" type="DB:CONNECTIVITY, DB:QUERY_EXECUTION">
 				<ee:transform doc:name="Transform Message" doc:id="ce0ae838-2cbe-4991-a063-9634ed25d85d" >
@@ -125,7 +130,7 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<set-variable value="vars.statusCode = 500" doc:name="Set Variable" doc:id="da3ffb33-73f2-4ef5-96b7-5fb3491a0378" variableName="statusCode"/>
+				<set-variable value="500" doc:name="Set Variable" doc:id="da3ffb33-73f2-4ef5-96b7-5fb3491a0378" variableName="statusCode"/>
 			</on-error-propagate>
 		</error-handler>
 	</flow>
