@@ -10,7 +10,6 @@ This project is a MuleSoft-based REST API that integrates with a PostgreSQL data
 This is a test project used to experiment with MuleSoft integration tools and practice connecting different APIs.
 
 <br>
-<br>
 
 ---
 
@@ -31,7 +30,6 @@ User receives response (Postman)
 ```
 
 <br>
-<br>
 
 ---
 
@@ -43,6 +41,7 @@ User receives response (Postman)
 
 HTTP Listener → Transform Message → DB Insert
 
+<br>
 
 ---
 
@@ -74,6 +73,8 @@ Creates a new customer and adds them to the database.
 
 
 <br>
+<br>
+
 
 ---
 
