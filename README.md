@@ -12,8 +12,6 @@ This is a test project used to experiment with MuleSoft integration tools and pr
 <br>
 <br>
 
-<br>
-
 ---
 
 
