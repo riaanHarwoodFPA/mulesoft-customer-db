@@ -16,7 +16,6 @@ This is a test project used to experiment with MuleSoft integration tools and pr
 
 
 
-
 ## 🔄 Workflow
 
 ```
@@ -30,6 +29,9 @@ MuleSoft API (response)
       ↓
 User receives response (Postman)
 ```
+
+<br>
+<br>
 
 ---
 
