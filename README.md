@@ -102,6 +102,19 @@ Retrieves all customers from the database as JSON.
 <img width="1014" height="484" alt="Screenshot 2026-04-21 at 6 51 14 PM" src="https://github.com/user-attachments/assets/f20365b1-4c90-4e70-9fcc-aa9260b239c1" />
 
 
+
+<br>
+<br>
+
+## GET Customer by {ID}
+
+<img width="743" height="558" alt="Screenshot 2026-04-25 at 2 39 39 PM" src="https://github.com/user-attachments/assets/8fab8da1-a8cd-497f-9e7e-31e79f57aaaa" />
+
+<br>
+
+<img width="1014" height="614" alt="Screenshot 2026-04-25 at 2 40 02 PM" src="https://github.com/user-attachments/assets/1d668efa-cf35-447d-88ed-3ccfc0a2bb49" />
+
+<br>
 <br>
 
 ---
